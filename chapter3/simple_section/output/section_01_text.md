@@ -15,6 +15,49 @@ Section Headers:
   [ 1] .text             PROGBITS         0000000000000000  00000040
        0000000000000062  0000000000000000  AX       0     0     1
 
+Name = offset 0x20 in the section string table → resolves to ".text"
+
+Type = 1 → PROGBITS
+
+Flags = 0x6 → AX (ALLOC + EXECINSTR)
+
+Address = 0x0 (relocatable)
+
+Offset = 0x40 (file position where .text starts)
+
+Size = 0x62 (98 bytes)
+
+Link/Info = 0 (not applicable for code section)
+
+Align = 1 (no special alignment required)
+
+EntSize = 0 (not a table, just raw instructions)
+
+typedef struct {
+  uint32_t sh_name;      // Section name (string table index)
+  uint32_t sh_type;      // Section type
+  uint64_t sh_flags;     // Section attributes
+  uint64_t sh_addr;      // Virtual address in memory
+  uint64_t sh_offset;    // Offset in file
+  uint64_t sh_size;      // Size of section
+  uint32_t sh_link;      // Link to another section
+  uint32_t sh_info;      // Additional section info
+  uint64_t sh_addralign; // Alignment
+  uint64_t sh_entsize;   // Entry size (if section holds table)
+} Elf64_Shdr;
+
+20 00 00 00              → sh_name      = 0x20 (index into string table = ".text")
+01 00 00 00              → sh_type      = 1 (SHT_PROGBITS)
+06 00 00 00 00 00 00 00  → sh_flags     = 0x6 (ALLOC + EXECINSTR)
+00 00 00 00 00 00 00 00  → sh_addr      = 0x0 (loaded at runtime, relocatable obj)
+40 00 00 00 00 00 00 00  → sh_offset    = 0x40 (file offset of section contents)
+62 00 00 00 00 00 00 00  → sh_size      = 0x62 (section length = 98 bytes)
+00 00 00 00              → sh_link      = 0
+00 00 00 00              → sh_info      = 0
+01 00 00 00 00 00 00 00  → sh_addralign = 1
+00 00 00 00 00 00 00 00  → sh_entsize   = 0
+
+
 Real content in HEX
 00000040  f3 0f 1e fa 55 48 89 e5  48 83 ec 10 89 7d fc 8b  |....UH..H....}..|
 00000050  45 fc 89 c6 48 8d 05 00  00 00 00 48 89 c7 b8 00  |E...H......H....|
